@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@types/cors": "^2.8.17",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "fs": "^0.0.1-security",
+    "uuid": "^10.0.0",
+    "uuidv4": "^6.2.13",
+    "zod": "^3.23.8"
+  },
+  "scripts": {
+    "start": "ts-node src/server.ts",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.5",
+    "@vitejs/plugin-react-swc": "^3.7.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.8"
+  }
+}

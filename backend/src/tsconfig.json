@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "target": "ES2023",
+    "outDir": "./public/dist",
+    "types": ["node"]
+  },
+  "include": ["./server.ts"],
+  "exclude": ["./public/dist"],
+  "lib": ["ES2023"]
+}
