@@ -61,7 +61,7 @@ export const Loading = ({ isReady = true, onFinished }: LoadingProps) => {
   return (
     <LoadingOverlay role="progressbar" aria-label="Loading Rikaflix" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress} isLeaving={isLeaving}>
       <LoadingMark isLeaving={isLeaving}>
-        <LogoMark animated width={96} />
+        <LogoMark animated width={110} />
       </LoadingMark>
       <LoadingProgress>
         <LoadingBar>

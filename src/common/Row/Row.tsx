@@ -13,7 +13,7 @@ export const Row = () => {
       {LOGO_TILES.map(variant => (
         <Fragment key={variant}>
           <LogoTile variant={variant}>
-            <LogoMark color={variant === 'red' ? 'white' : 'red'} width={78} />
+            <LogoMark color={variant === 'red' ? 'white' : 'red'} width={88} />
           </LogoTile>
           {getRandomPoster(getAllPosters(allShowOfType), 8).map((poster, index) => (
             <img key={index} src={imageUrl(poster)} alt="" width="132" height="200" />

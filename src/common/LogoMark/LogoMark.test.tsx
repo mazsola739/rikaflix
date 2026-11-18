@@ -8,15 +8,17 @@ describe('LogoMark ', () => {
     expect(screen.getByRole('img', { name: 'Rikaflix' })).toBeInTheDocument()
   })
 
-  it('gives every instance its own gradient ids', () => {
-    const { container } = render(
-      <>
-        <LogoMark />
-        <LogoMark color="white" />
-      </>
-    )
-    const ids = [...container.querySelectorAll('linearGradient')].map(gradient => gradient.id)
+  it('keeps the shape of the letter at any width', () => {
+    render(<LogoMark width={671} />)
 
-    expect(new Set(ids).size).toBe(ids.length)
+    expect(screen.getByRole('img')).toHaveAttribute('height', '700')
+  })
+
+  it('adds the outline to draw only when animated', () => {
+    const { container, rerender } = render(<LogoMark />)
+    expect(container.querySelectorAll('.outline')).toHaveLength(0)
+
+    rerender(<LogoMark animated />)
+    expect(container.querySelectorAll('.outline')).toHaveLength(2)
   })
 })

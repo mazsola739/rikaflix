@@ -1,41 +1,31 @@
-import { useId } from 'react'
 import { LogoMarkSvg } from './LogoMark.styles'
 import { LogoMarkColor, LogoMarkProps } from './LogoMark.types'
 
-/** Ribbon shades: the front ribbon, the back ribbon, and the shadow where they fold. */
-const PALETTE: Record<LogoMarkColor, { front: string; back: string; shadow: string }> = {
-  red: { front: '#E50914', back: '#B1060F', shadow: '#5C0007' },
-  white: { front: '#FFFFFF', back: '#D9D9D9', shadow: '#8C8C8C' }
+const COLORS: Record<LogoMarkColor, string> = {
+  red: '#E50914',
+  white: '#FFFFFF'
 }
 
 /**
- * The Rikaflix "R": a back ribbon (the stem) with a front ribbon folded over it
- * (the bowl), ending in a leg. Drawn on a 120 × 200 grid.
+ * The capital R of Montserrat Black, the font of the "rikaflix" text, as outlines (font units, baseline at y = 0),
+ * so it looks the same everywhere, even before the font has loaded. public/favicon.svg uses the same path.
  */
+const OUTLINE = 'M57 0 L57 -700 L384 -700 Q545 -700 629 -629 Q713 -558 713 -436 Q713 -355 674 -297 Q640 -245 581 -215 L728 0 L476 0 L357 -176 L293 -176 L293 0 L57 0 Z'
+const COUNTER = 'M293 -354 L379 -354 Q428 -354 451.5 -376 Q475 -398 475 -436 Q475 -474 451.5 -496 Q428 -518 379 -518 L293 -518 L293 -354 Z'
+
+/** The letter's box in font units: x, y, width, height. */
+const VIEW_BOX = { x: 57, y: -700, width: 671, height: 700 }
+
+/** The Rikaflix "R". */
 export const LogoMark = ({ color = 'red', animated = false, width = 120 }: LogoMarkProps) => {
-  // Gradient ids must be unique per instance (the header shows many logos) and valid in url(#…).
-  const id = `logo-mark-${useId().replace(/[^\w-]/g, '')}`
-  const { front, back, shadow } = PALETTE[color]
+  const fill = COLORS[color]
+  const { x, y, width: boxWidth, height: boxHeight } = VIEW_BOX
 
   return (
-    <LogoMarkSvg animated={animated} viewBox="0 0 120 200" width={width} height={(width * 5) / 3} role="img" aria-label="Rikaflix">
-      <defs>
-        {/* The stem darkens towards the fold under the front ribbon. */}
-        <linearGradient id={`${id}-stem`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor={back} />
-          <stop offset="0.6" stopColor={back} />
-          <stop offset="1" stopColor={shadow} />
-        </linearGradient>
-        {/* The leg comes out of the bowl's shadow. */}
-        <linearGradient id={`${id}-leg`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor={shadow} />
-          <stop offset="0.2" stopColor={shadow} />
-          <stop offset="0.45" stopColor={front} />
-        </linearGradient>
-      </defs>
-      <rect className="stem" x="8" y="8" width="36" height="184" fill={`url(#${id}-stem)`} />
-      <polygon className="leg" points="50,98 86,98 116,192 80,192" fill={`url(#${id}-leg)`} />
-      <path className="bowl" d="M8,26 H64 A36,36 0 0 1 64,98 H44" fill="none" stroke={front} strokeWidth="36" pathLength={1} />
+    <LogoMarkSvg animated={animated} viewBox={`${x} ${y} ${boxWidth} ${boxHeight}`} width={width} height={Math.round((width * boxHeight) / boxWidth)} role="img" aria-label="Rikaflix">
+      <path className="letter" d={`${OUTLINE} ${COUNTER}`} fill={fill} fillRule="evenodd" />
+      {/* On the intro screen the outline is drawn first, then the letter fills in. */}
+      {animated && [OUTLINE, COUNTER].map(outline => <path key={outline} className="outline" d={outline} fill="none" stroke={fill} strokeWidth={12} strokeLinejoin="round" pathLength={1} />)}
     </LogoMarkSvg>
   )
 }

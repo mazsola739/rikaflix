@@ -30,7 +30,7 @@ Extras added on top:
 - Ascending / descending sort toggle with icons
 - Pagination with first / previous / next / last buttons and a result counter
 - Circular **rating ring** on every card
-- **Intro screen**: the Rikaflix "R" draws itself ribbon by ribbon while a counter runs to 100 %, then the screen zooms into the R and fades into the app
+- **Intro screen**: the Rikaflix "R" draws its outline and fills in while a counter runs to 100 %, then the screen zooms into the R and fades into the app
 - Success ("congratulations") dialog with the added show's title
 - Detail page drawn over the show's backdrop image
 - Fallback poster when an image can't be loaded
@@ -177,7 +177,8 @@ remote image in the data (TMDB images at 500 px / 1280 px width) and rewrites th
 
 Other assets:
 
-- The Rikaflix "R" is drawn in SVG by [`common/LogoMark`](src/common/LogoMark/LogoMark.tsx) (intro screen, header tiles);
+- The Rikaflix "R" is the capital R of Montserrat Black (the font of the "rikaflix" text), stored as an SVG outline in
+  [`common/LogoMark`](src/common/LogoMark/LogoMark.tsx) (intro screen, header tiles);
   `public/favicon.svg` is the same drawing, `public/favicon.ico` the older "R" icon kept as a fallback for browsers without SVG favicons.
 - `src/assets/`: the fallback poster, the error / 404 / loading pictures and an extra WandaVision poster (kept for later use).
 - Icons come from `@react-icons/all-files` and are re-exported with descriptive names in `assets/icons.ts`.
