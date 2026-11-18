@@ -4,6 +4,7 @@ export { BiChevronRight as RIGHT_ICON } from '@react-icons/all-files/bi/BiChevro
 export { BiChevronsLeft as SHIFT_LEFT_ICON } from '@react-icons/all-files/bi/BiChevronsLeft'
 export { BiChevronsRight as SHIFT_RIGHT_ICON } from '@react-icons/all-files/bi/BiChevronsRight'
 export { BiDotsVerticalRounded as ELLIPSIS_ICON } from '@react-icons/all-files/bi/BiDotsVerticalRounded'
+export { FaGithub as GITHUB_ICON } from '@react-icons/all-files/fa/FaGithub'
 export { FaSortAlphaDown as ALPHA_ASC_ICON } from '@react-icons/all-files/fa/FaSortAlphaDown'
 export { FaSortAlphaDownAlt as ALPHA_DESC_ICON } from '@react-icons/all-files/fa/FaSortAlphaDownAlt'
 export { FaSortNumericDown as NUM_ASC_ICON } from '@react-icons/all-files/fa/FaSortNumericDown'

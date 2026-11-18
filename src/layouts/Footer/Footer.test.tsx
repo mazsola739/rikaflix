@@ -18,7 +18,11 @@ describe('Footer ', () => {
   })
 
   it('shows when the site was made and when it was renovated', async () => {
-    expect(await screen.findByText(/© 2021–2022 by Rika/)).toBeInTheDocument()
-    expect(screen.getByText('Originally made in 2021, renovated in 2026.')).toBeInTheDocument()
+    expect(await screen.findByText('© 2021–2022 by Rika · Made in 2021, renovated in 2026')).toBeInTheDocument()
+  })
+
+  it('links to the portfolio and to GitHub', async () => {
+    expect(await screen.findByRole('link', { name: 'Portfolio' })).toHaveAttribute('href', 'https://mazsola739.github.io/mazsola739')
+    expect(screen.getByRole('link', { name: 'GitHub' })).toHaveAttribute('href', 'https://github.com/mazsola739')
   })
 })
