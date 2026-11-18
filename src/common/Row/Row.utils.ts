@@ -1,7 +1,8 @@
-import { netflixLogos } from 'assets'
 import { Show } from 'types'
+import { LogoTileVariant } from './Row.types'
 
-export const netflixArray = [netflixLogos.netflix1, netflixLogos.netflix2, netflixLogos.netflix3, netflixLogos.netflix4, netflixLogos.netflix5]
+/** One logo tile starts each group of posters. */
+export const LOGO_TILES: LogoTileVariant[] = ['red', 'redStripes', 'colorStripes', 'white', 'black']
 
 export const getAllPosters = (shows: Show[]) => shows.map(media => media.poster_path)
 

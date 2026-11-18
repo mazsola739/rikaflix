@@ -15,7 +15,7 @@ import { Show } from 'types'
  */
 
 /** localStorage key of the visitor's edited copy of the data set. */
-export const STORAGE_KEY = 'rika-netflix:shows'
+export const STORAGE_KEY = 'rikaflix:shows'
 
 let shows: Show[] | undefined
 

@@ -1,4 +1,4 @@
-import { Loading, Poster, RatingRing } from 'common'
+import { Poster, RatingRing } from 'common'
 import { Navigation } from 'layouts'
 import { useParams, Navigate } from 'react-router-dom'
 import { useGetShowByIdQuery } from 'store'
@@ -26,7 +26,8 @@ export const MediaInfo = () => {
 
   const { data: media, isLoading } = useGetShowByIdQuery(id)
 
-  if (isLoading) return <Loading />
+  // The data is local, so this lasts a few milliseconds: show nothing rather than flash a loader.
+  if (isLoading) return null
 
   if (!media) return <Navigate replace to={'/home'} />
 

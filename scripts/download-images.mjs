@@ -9,7 +9,7 @@
  *   plenty for the UI and ~4x smaller than the originals.
  * - Paths are stored relative to the site root without a leading slash
  *   (e.g. "images/posters/abc.jpg"), so they also work when the app is served
- *   from a sub-path such as GitHub Pages (https://<user>.github.io/rika-netflix/).
+ *   from a sub-path such as GitHub Pages (https://<user>.github.io/rikaflix/).
  * - Safe to run again: existing files are skipped, only remote URLs are processed.
  *   Run it after adding shows with remote image URLs to make them local too.
  *

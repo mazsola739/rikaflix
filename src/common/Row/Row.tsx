@@ -1,18 +1,22 @@
+import { LogoMark } from 'common/LogoMark'
 import { useShowContext } from 'helper'
 import { Fragment } from 'react'
 import { imageUrl } from 'utils'
-import { netflixArray, getRandomPoster, getAllPosters } from './Row.utils'
+import { LogoTile } from './Row.styles'
+import { LOGO_TILES, getRandomPoster, getAllPosters } from './Row.utils'
 
 export const Row = () => {
   const { allShowOfType } = useShowContext()
 
   return (
     <>
-      {netflixArray.map((logo: string) => (
-        <Fragment key={logo}>
-          <img src={logo} alt="img" width="132" height="200" />
+      {LOGO_TILES.map(variant => (
+        <Fragment key={variant}>
+          <LogoTile variant={variant}>
+            <LogoMark color={variant === 'red' ? 'white' : 'red'} width={78} />
+          </LogoTile>
           {getRandomPoster(getAllPosters(allShowOfType), 8).map((poster, index) => (
-            <img key={index} src={imageUrl(poster)} alt="img" width="132" height="200" />
+            <img key={index} src={imageUrl(poster)} alt="" width="132" height="200" />
           ))}
         </Fragment>
       ))}

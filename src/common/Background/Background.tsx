@@ -3,7 +3,8 @@ import { BackgroundWrapper, AnimatedRow } from './Background.styles'
 
 export const Background = () => {
   return (
-    <BackgroundWrapper>
+    // Decorative: the scrolling posters and logos carry no information.
+    <BackgroundWrapper aria-hidden="true">
       <AnimatedRow position="top" time={60}>
         <Row />
       </AnimatedRow>

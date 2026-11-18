@@ -5,7 +5,7 @@ export const LOCAL_IMAGE_PATTERN = /^images\/[\w./-]+$/
  * Turns an image path from the API into something an <img> can load.
  * Absolute URLs pass through; local `images/...` paths are prefixed with the
  * app's base URL, so they keep working when the site is served from a
- * sub-path (e.g. GitHub Pages: `/rika-netflix/images/...`).
+ * sub-path (e.g. GitHub Pages: `/rikaflix/images/...`).
  */
 export const imageUrl = (path: string) => {
   if (!path) return ''

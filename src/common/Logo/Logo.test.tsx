@@ -11,17 +11,17 @@ describe('Logo ', () => {
     )
   })
 
-  it(`should have "netflix" value`, async () => {
-    const nextflixRegExp = /netflix/i
-    const netflixElement = await waitFor(() => screen.getByText(nextflixRegExp))
+  it(`should have "rika" value`, async () => {
+    const rikaRegExp = /^rika$/i
+    const rikaElement = await waitFor(() => screen.getByText(rikaRegExp))
 
-    expect(netflixElement).toBeInTheDocument()
+    expect(rikaElement).toBeInTheDocument()
   })
 
-  it(`should have "roulette" value`, async () => {
-    const rouletteRegExp = /roulette/i
-    const rouletteElement = await waitFor(() => screen.getByText(rouletteRegExp))
+  it(`should have "flix" value`, async () => {
+    const flixRegExp = /^flix$/i
+    const flixElement = await waitFor(() => screen.getByText(flixRegExp))
 
-    expect(rouletteElement).toBeInTheDocument()
+    expect(flixElement).toBeInTheDocument()
   })
 })

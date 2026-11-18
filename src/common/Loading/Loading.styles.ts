@@ -1,68 +1,80 @@
 import styled from '@emotion/styled'
 import { keyframes } from '@emotion/react'
-import { darkJungleGreen, watermelon } from 'styles/variables'
+import { darkJungleGreen, white } from 'styles/variables'
+import { LoadingStyleProps } from './Loading.types'
 
-const spinCircle = keyframes`
-0% { 
-  transform: rotate(0deg); 
-}
-100% { 
-  transform: rotate(360deg); 
-  }
+/** How long the exit (zoom into the R + fade) takes; Loading.tsx waits for it before finishing. */
+export const EXIT_MS = 600
+
+/** A soft red glow that breathes once the R is drawn. */
+const glow = keyframes`
+  from { filter: drop-shadow(0 0 0 rgba(229, 9, 20, 0)); }
+  to { filter: drop-shadow(0 0 24px rgba(229, 9, 20, 0.55)); }
 `
 
-export const LoadingContainer = styled.div`
+/** The screen covers the app until it has faded out, so the page appears from behind it. */
+export const LoadingOverlay = styled.div<LoadingStyleProps>`
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 70px;
-
-  margin: auto;
-  width: 100vw;
-  height: 100vh;
-`
-
-export const LoadingText = styled.p`
-  font-size: 24px;
-  font-weight: 500;
-`
-
-export const LoadingWrapper = styled.div`
-  position: relative;
-  z-index: 10;
-
-  width: 100px;
-  height: 100px;
-`
-
-export const OuterCircle = styled.div`
-  animation: ${spinCircle} 2s linear infinite;
-
-  border-radius: 50%;
-  width: 100%;
-  height: 100%;
-
-  background: ${`conic-gradient(${darkJungleGreen} 0deg, ${watermelon} 90deg)`};
-`
-
-export const InnerCircle = styled.div`
-  border-radius: 50%;
-  width: 98%;
-  height: 98%;
+  gap: 40px;
 
   background-color: ${darkJungleGreen};
+
+  opacity: ${({ isLeaving }) => (isLeaving ? 0 : 1)};
+  transition: opacity ${EXIT_MS}ms ease-in;
 `
 
-export const LoadingCounter = styled.div`
-  position: relative;
-  top: -56px;
+export const LoadingMark = styled.div<LoadingStyleProps>`
+  animation: ${glow} 1.2s 1.3s ease-in-out infinite alternate;
 
+  transform: scale(${({ isLeaving }) => (isLeaving ? 8 : 1)});
+  transition: transform ${EXIT_MS}ms cubic-bezier(0.7, 0, 0.84, 0);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    transform: none;
+  }
+`
+
+export const LoadingProgress = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  gap: 12px;
+
+  width: 220px;
 `
 
-export const LoadingLogo = styled.img`
-  width: 180px;
+export const LoadingBar = styled.div`
+  overflow: hidden;
+
+  border-radius: 2px;
+  width: 100%;
+  height: 4px;
+
+  background-color: rgba(255, 255, 255, 0.12);
+`
+
+/** Its width is set inline on every frame, so Emotion doesn't generate a class per percent. */
+export const LoadingBarFill = styled.div`
+  height: 100%;
+
+  background-color: #e50914;
+`
+
+export const LoadingPercent = styled.p`
+  margin: 0;
+
+  opacity: 0.8;
+
+  font-size: 16px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: ${white};
 `

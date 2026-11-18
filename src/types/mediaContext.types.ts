@@ -14,4 +14,6 @@ export interface ShowContextProps {
 
 export interface ShowProviderProps {
   children: ReactNode
+  /** Plays the intro (loading) screen on start; the app turns it on, component tests don't. */
+  withIntro?: boolean
 }

@@ -1,15 +1,11 @@
 import { render, screen } from 'test-utils'
 import { RatingRing } from '.'
+import { rating } from './RatingRing.utils'
 
 describe('RatingRing ', () => {
-  beforeEach(() => {
-    render(<RatingRing vote_average={0} />)
-  })
+  it('shows the rating', async () => {
+    render(<RatingRing vote_average={7.9} />)
 
-  it('renders without crashing', () => {
-    const ratingRegExp = /0/i
-    const ratingElement = screen.getByText(ratingRegExp)
-
-    expect(ratingElement).toBeInTheDocument()
+    expect(await screen.findByText(String(rating(7.9)))).toBeInTheDocument()
   })
 })

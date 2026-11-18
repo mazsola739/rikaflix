@@ -47,7 +47,7 @@ jobs:
           node-version: 24
           cache: yarn
 
-      - name: Build (served from /rika-netflix/)
+      - name: Build (served from /rikaflix/)
         run: |
           yarn install --frozen-lockfile
           yarn build

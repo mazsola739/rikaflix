@@ -8,7 +8,7 @@ export const AppProvider: FC<PropsWithChildren<Record<string, unknown>>> = ({ ch
   return (
     <ThemeProvider>
       <Provider store={store}>
-        <ShowProvider>{children}</ShowProvider>
+        <ShowProvider withIntro>{children}</ShowProvider>
       </Provider>
     </ThemeProvider>
   )

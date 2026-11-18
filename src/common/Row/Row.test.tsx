@@ -2,13 +2,9 @@ import { render, screen } from 'test-utils'
 import { Row } from '.'
 
 describe('Row ', () => {
-  beforeEach(() => {
+  it('starts every group of posters with an R logo tile', async () => {
     render(<Row />)
-  })
 
-  it('renders without crashing', () => {
-    const rowElement = screen.getByRole('img')
-
-    expect(rowElement).toBeInTheDocument()
+    expect(await screen.findAllByRole('img', { name: 'Rikaflix' })).toHaveLength(5)
   })
 })

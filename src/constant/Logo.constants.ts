@@ -1,4 +1,4 @@
 export const LogoText = {
-  BOLD_TEXT: 'netflix',
-  LIGHT_TEXT: 'roulette'
+  BOLD_TEXT: 'rika',
+  LIGHT_TEXT: 'flix'
 } as const

@@ -1,8 +1,8 @@
 {
-  "name": "rika-netflix",
+  "name": "rikaflix",
   "version": "1.0.0",
   "private": true,
-  "description": "Rika Netflix: a static movie and TV show browser (React + Vite), published on GitHub Pages",
+  "description": "Rikaflix: a static movie and TV show browser (React + Vite), published on GitHub Pages",
   "license": "MIT",
   "type": "module",
   "scripts": {

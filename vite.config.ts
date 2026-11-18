@@ -11,14 +11,14 @@ const SOURCE_FOLDERS = ['app', 'assets', 'common', 'constant', 'helper', 'hooks'
 
 const fromHere = (relativePath: string) => fileURLToPath(new URL(relativePath, import.meta.url))
 
-/** Repository name = sub-path of the GitHub Pages site (https://<user>.github.io/rika-netflix/). */
-const PAGES_BASE = '/rika-netflix/'
+/** Repository name = sub-path of the GitHub Pages site (https://<user>.github.io/rikaflix/). */
+const PAGES_BASE = '/rikaflix/'
 
 /** Local dev server and `yarn preview` both run here. */
 const PORT = 2222
 
 export default defineConfig(({ command }) => ({
-  // The build is published under /rika-netflix/ on GitHub Pages; the dev server stays on http://localhost:2222/.
+  // The build is published under /rikaflix/ on GitHub Pages; the dev server stays on http://localhost:2222/.
   base: command === 'build' ? PAGES_BASE : '/',
   plugins: [
     react({

@@ -44,6 +44,9 @@ export const AnimatedRow = styled.div<BackgroundProps>(
     top: ${positionMap[position]};
     ${direction === 'left' ? 'left' : 'right'}: 0;
 
+    /* Posters and logo tiles side by side, never wrapping. */
+    display: flex;
+
     animation: ${direction === 'left' ? moveInLeft : moveInRight} ${time}s linear infinite;
 
     width: 5940px;

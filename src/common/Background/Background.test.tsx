@@ -1,11 +1,12 @@
-import { render, waitForElementToBeRemoved, screen } from 'test-utils'
+import { render, screen } from 'test-utils'
 import { Background } from '.'
 
 describe('Background ', () => {
-  it('renders without crashing', async () => {
+  it('renders three decorative rows', async () => {
     const { container } = render(<Background />)
-    await waitForElementToBeRemoved(() => screen.getByRole('progressbar'))
 
-    expect(container).toBeInTheDocument()
+    // The rows are decorative, so they are hidden from assistive technology.
+    await screen.findAllByRole('img', { name: 'Rikaflix', hidden: true })
+    expect(container.firstChild).toHaveAttribute('aria-hidden', 'true')
   })
 })

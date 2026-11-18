@@ -1,9 +1,9 @@
-# Rika Netflix
+# Rikaflix
 
-A Netflix-style movie and TV show browser: search, filter by genre, sort, page through 600+ titles,
+Rikaflix is a streaming-site-style movie and TV show browser: search, filter by genre, sort, page through 600+ titles,
 open a detail page, pick something at random, and add, edit or delete shows.
 
-**Live:** <https://mazsola739.github.io/rika-netflix/>
+**Live:** <https://mazsola739.github.io/rikaflix/>
 
 It started as the React home task of the EPAM CDP mentoring program
 ([Figma design](https://www.figma.com/design/fKGjrOqR6nJe6LYJopGCZ8/-CDP--Home-Task-%E2%80%93-React-v1))
@@ -23,14 +23,14 @@ From the home task:
 
 Extras added on top:
 
-- **Animated header**: three rows of Netflix logos and random posters scrolling in opposite directions behind a blurred overlay
+- **Animated header**: three rows of Rikaflix logo tiles and random posters scrolling in opposite directions behind a blurred overlay
 - **Random** button that opens a random show
 - **Movies / Series** buttons that switch between movies and TV shows (180 TV shows in the data)
 - Sliding underline on the genre tabs, with a "…more" menu for the rest of the genres
 - Ascending / descending sort toggle with icons
 - Pagination with first / previous / next / last buttons and a result counter
 - Circular **rating ring** on every card
-- Loading screen with a counter and the Netflix logo
+- **Intro screen**: the Rikaflix "R" draws itself ribbon by ribbon while a counter runs to 100 %, then the screen zooms into the R and fades into the app
 - Success ("congratulations") dialog with the added show's title
 - Detail page drawn over the show's backdrop image
 - Fallback poster when an image can't be loaded
@@ -60,8 +60,8 @@ The app opens on <http://localhost:2222>.
 | Command           | What it does                                                                       |
 | ----------------- | ---------------------------------------------------------------------------------- |
 | `yarn dev`        | Dev server on <http://localhost:2222>                                              |
-| `yarn build`      | Type-checks, then builds the GitHub Pages version into `dist/` (served from `/rika-netflix/`) |
-| `yarn preview`    | Serves the last build on <http://localhost:2222/rika-netflix/>                     |
+| `yarn build`      | Type-checks, then builds the GitHub Pages version into `dist/` (served from `/rikaflix/`) |
+| `yarn preview`    | Serves the last build on <http://localhost:2222/rikaflix/>                     |
 | `yarn typecheck`  | Type-checks only                                                                   |
 | `yarn lint`       | ESLint                                                                             |
 | `yarn format`     | Prettier on `src/`                                                                 |
@@ -76,11 +76,11 @@ it type-checks, lints and tests the app, then builds it and publishes it.
 
 One-time setup:
 
-1. Create a **public** repository called `rika-netflix` on GitHub (free GitHub Pages needs a public repository) and push the code.
+1. Create a **public** repository called `rikaflix` on GitHub (free GitHub Pages needs a public repository) and push the code.
 2. **Settings → Pages → Build and deployment → Source: GitHub Actions.** If the first run failed because Pages was not switched on yet, re-run it.
-3. The site appears at `https://<your-github-user>.github.io/rika-netflix/`.
+3. The site appears at `https://<your-github-user>.github.io/rikaflix/`.
 
-The build expects the repository to be called `rika-netflix`; if you rename it, change `PAGES_BASE` in [`vite.config.ts`](vite.config.ts).
+The build expects the repository to be called `rikaflix`; if you rename it, change `PAGES_BASE` in [`vite.config.ts`](vite.config.ts).
 On GitHub Pages `404.html` (a copy of `index.html`, made by `yarn build`) makes direct links and page reloads work.
 
 > Note: posters and backdrops are copyrighted by their studios. They are fine in a personal learning project,
@@ -89,7 +89,7 @@ On GitHub Pages `404.html` (a copy of `index.html`, made by `yarn build`) makes 
 ## Project structure
 
 ```
-rika-netflix/
+rikaflix/
 ├── src/            the app (see below)
 ├── public/         favicons and every poster / backdrop (images/)
 ├── scripts/        maintenance scripts (image download)
@@ -106,7 +106,7 @@ src/
 ├── app/          App (routes) and AppProvider (theme, Redux store, show context)
 ├── layouts/      page building blocks: Layout, Header, Navigation, Main, CardList, MediaInfo, Footer
 ├── modules/      features: Search, Filter, Sort, Switcher, Add, Edit, Delete
-├── common/       reusable UI: Button, Card, Modal, Poster, RatingRing, Pagination, form fields, Loading…
+├── common/       reusable UI: Button, Card, Modal, Poster, RatingRing, Pagination, form fields, Loading (intro), LogoMark (the R)…
 ├── helper/       ShowProvider / useShowContext: the list query state shared by the page
 ├── store/        Redux store, the RTK Query API (mediaApi) and the in-browser data layer
 ├── data/         shows.json: the data set (614 shows)
@@ -116,7 +116,7 @@ src/
 ├── styles/       global styles and colour variables
 ├── providers/    Emotion theme provider
 ├── types/        shared TypeScript types
-├── assets/       images, Netflix logos, icon exports
+├── assets/       images, icon exports
 └── test/         test setup, test data set, custom render()
 ```
 
@@ -135,7 +135,7 @@ Browser ──► static files (GitHub Pages): app + data + images
 3. There is no server: [`store/service/browserBaseQuery.ts`](src/store/service/browserBaseQuery.ts) answers every request
    in the browser. It loads `src/data/shows.json` (as a separate, lazily loaded chunk), filters, sorts and pages it with
    [`store/service/showQuery.ts`](src/store/service/showQuery.ts), and keeps additions / edits / deletions in localStorage
-   under `rika-netflix:shows`.
+   under `rikaflix:shows`.
 4. Search, genre tabs, sorting, paging and the Movies/Series buttons only update the query state; RTK Query refetches.
 5. Add / Edit / Delete call the matching mutation and then refetch the list.
 6. Forms use their own field names; `utils/mediaFormatter.ts` converts between the form and the data shape
@@ -150,7 +150,7 @@ Browser ──► static files (GitHub Pages): app + data + images
 | `/home`      | Header with search + "add new", genre tabs, sorting, card list, paging |
 | `/shows/:id` | Detail page of a show over its backdrop image                          |
 
-On GitHub Pages every route is prefixed with `/rika-netflix`.
+On GitHub Pages every route is prefixed with `/rikaflix`.
 
 ## Tests
 
@@ -170,16 +170,16 @@ expect(await screen.findByRole('banner')).toBeInTheDocument()
 
 All 614 posters and 64 backdrops live in `public/images/` (~69 MB) and are referenced in the data as
 `images/posters/<file>.jpg` / `images/backdrops/<file>.jpg`. The app resolves these against its base URL,
-so they work both locally and under `/rika-netflix/` on GitHub Pages.
+so they work both locally and under `/rikaflix/` on GitHub Pages.
 
 If you add a show to `src/data/shows.json` with a poster URL from the internet, run `yarn images`: it downloads every
 remote image in the data (TMDB images at 500 px / 1280 px width) and rewrites the data to the local copies.
 
 Other assets:
 
-- `public/favicon.ico`: the "R" logo; `public/favicon-netflix.ico`: the Netflix "N".
-- `src/assets/`: the five Netflix logos of the animated header, the fallback poster, the loading logo,
-  the error / 404 / loading pictures and an extra WandaVision poster (kept for later use).
+- The Rikaflix "R" is drawn in SVG by [`common/LogoMark`](src/common/LogoMark/LogoMark.tsx) (intro screen, header tiles);
+  `public/favicon.svg` is the same drawing, `public/favicon.ico` the older "R" icon kept as a fallback for browsers without SVG favicons.
+- `src/assets/`: the fallback poster, the error / 404 / loading pictures and an extra WandaVision poster (kept for later use).
 - Icons come from `@react-icons/all-files` and are re-exported with descriptive names in `assets/icons.ts`.
 - The Montserrat font is bundled from `@fontsource/montserrat` (no Google Fonts request).
 
@@ -206,13 +206,13 @@ interface Show {
 
 ## History
 
-This repository merges three earlier versions of the same project into one:
+Rikaflix merges three earlier versions of the same project into one:
 
-| Version                        | What came from it                                                               |
-| ------------------------------ | ------------------------------------------------------------------------------- |
-| `netflix-roulette-2021`        | First version (CRA, styled-components); the 404 picture                         |
-| `netflix-roulette-rika` (2025) | The feature-complete frontend, its tests, assets and the full data set          |
-| `rika-roulette` (2024)         | Vite setup, the "R" favicon, the footer text and the WandaVision poster. It also had an Express backend; the app has since become fully static, and that backend is only in the git history |
+| Version | What came from it                                                                                                                                  |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2021    | First version (CRA, styled-components); the 404 picture                                                                                            |
+| 2024    | Vite setup, the old "R" favicon, the footer text and the WandaVision poster. It also had an Express backend; the app has since become fully static |
+| 2025    | The feature-complete frontend, its tests, assets and the full data set                                                                             |
 
 ## Not implemented yet
 
