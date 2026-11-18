@@ -1,6 +1,6 @@
 import { X_MARK_ICON } from 'assets'
 import styled from '@emotion/styled'
-import { charcoalGrey, darkJungleGreen, watermelon, white } from 'styles/variables'
+import { charcoalGrey, darkJungleGreen, phoneQuery, tabletQuery, watermelon, white } from 'styles/variables'
 
 export const ModalBackground = styled.div`
   position: fixed;
@@ -35,8 +35,10 @@ export const ModalContainer = styled.div`
   border-radius: 4px;
   min-width: 200px;
   min-height: 200px;
-  max-width: 980px;
-  max-height: 700px;
+  /* Never wider or taller than the screen, leaving a 16px margin. */
+  max-width: min(980px, calc(100vw - 32px));
+  max-height: min(700px, calc(100vh - 32px));
+  max-height: min(700px, calc(100dvh - 32px));
 
   background-color: ${darkJungleGreen};
 
@@ -60,6 +62,14 @@ export const ModalInfoBar = styled.div`
   justify-content: space-between;
 
   padding: 30px 30px 30px 60px;
+
+  ${tabletQuery} {
+    padding: 24px 24px 24px 40px;
+  }
+
+  ${phoneQuery} {
+    padding: 16px 16px 16px 24px;
+  }
 `
 
 export const ModalTitleHolder = styled.div`
@@ -73,6 +83,12 @@ export const ModalTitle = styled.h2`
   font-size: 40px;
   font-weight: 300;
   text-transform: uppercase;
+
+  ${phoneQuery} {
+    padding-top: 16px;
+
+    font-size: 26px;
+  }
 `
 
 export const ModalIcon = styled.div`
@@ -95,4 +111,17 @@ export const ContextWrapper = styled.div`
 
   margin: 0;
   padding: 0 60px 60px 60px;
+
+  /* The content (form, question) is never wider than the dialog. */
+  & > * {
+    max-width: 100%;
+  }
+
+  ${tabletQuery} {
+    padding: 0 40px 40px;
+  }
+
+  ${phoneQuery} {
+    padding: 0 24px 24px;
+  }
 `

@@ -6,6 +6,8 @@ export interface SwitcherProps<Option> {
   renderItem: (option: Option) => ReactElement
   name: string
   slideVerticalPosition?: string
+  /** How many options are shown (the first ones). */
+  limit?: number
 }
 
 export interface HorizontalPositionProps {

@@ -1,10 +1,12 @@
 import styled from '@emotion/styled'
+import { phoneQuery } from 'styles/variables'
 
 export const DeleteContainer = styled.div`
   display: flex;
   flex-direction: column;
 
   width: 685px;
+  max-width: 100%;
 
   font-size: 20px;
 `
@@ -27,4 +29,15 @@ export const DeleteButtons = styled.div`
   gap: 20px;
 
   padding: 60px 0;
+
+  ${phoneQuery} {
+    gap: 12px;
+
+    padding: 32px 0 0;
+
+    & button {
+      flex: 1;
+      min-width: 0;
+    }
+  }
 `

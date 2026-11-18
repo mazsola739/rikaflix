@@ -19,10 +19,12 @@ const MenuAnimation = keyframes`
 
 export const SortContainer = styled.div`
   display: inline-flex;
+  flex-shrink: 0;
 `
 
 export const SortBy = styled.p`
   opacity: 0.5;
+  white-space: nowrap;
 
   margin: 0;
 

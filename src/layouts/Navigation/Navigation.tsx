@@ -3,7 +3,7 @@ import { ButtonText } from 'constant'
 import { useShowContext } from 'helper'
 import { Link } from 'react-router-dom'
 import { GetShowsProps } from 'types'
-import { NavigationContainer, StyledMovie, StyledSeries, StyledRandom, StyledLens, StyledPlus } from './Navigation.styles'
+import { NavigationContainer, NavLabel, StyledMovie, StyledSeries, StyledRandom, StyledLens, StyledPlus } from './Navigation.styles'
 import { NavigationProps } from './Navigation.types'
 
 export const Navigation = ({ type, openModal }: NavigationProps) => {
@@ -40,28 +40,28 @@ export const Navigation = ({ type, openModal }: NavigationProps) => {
       </Link>
       <Link to={`/home`}>
         <Button color="blurred" font="bold" size="medium" onClick={showOnly('Movie')}>
-          <StyledMovie /> {ButtonText.MOVIES}
+          <StyledMovie /> <NavLabel>{ButtonText.MOVIES}</NavLabel>
         </Button>
       </Link>
       <Link to={`/home`}>
         <Button color="blurred" font="bold" size="medium" onClick={showOnly('TV show')}>
-          <StyledSeries /> {ButtonText.SERIES}
+          <StyledSeries /> <NavLabel>{ButtonText.SERIES}</NavLabel>
         </Button>
       </Link>
       <Link to={randomShow ? `/shows/${randomShow.id}` : `/home`}>
         <Button color="blurred" font="bold" size="medium">
-          <StyledRandom /> {ButtonText.RANDOM}
+          <StyledRandom /> <NavLabel>{ButtonText.RANDOM}</NavLabel>
         </Button>
       </Link>
       {type === 'info' ? (
         <Link to={`/home`}>
           <Button color="blurred" font="bold" size="medium">
-            <StyledLens /> {ButtonText.SEARCH}
+            <StyledLens /> <NavLabel>{ButtonText.SEARCH}</NavLabel>
           </Button>
         </Link>
       ) : (
         <Button onClick={openModal && openModal('add')} color="blurred" font="bold" size="medium">
-          <StyledPlus /> {ButtonText.ADD_NEW}
+          <StyledPlus /> <NavLabel>{ButtonText.ADD_NEW}</NavLabel>
         </Button>
       )}
     </NavigationContainer>

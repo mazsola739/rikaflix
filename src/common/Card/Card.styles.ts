@@ -11,7 +11,7 @@ export const CardImageContainer = styled.div`
   overflow: hidden;
 
   border-radius: 4px;
-  height: 460px;
+  aspect-ratio: 325 / 460;
 `
 
 export const CardImageWrapper = styled.div`
@@ -60,7 +60,7 @@ export const StyledEllipsis = styled(ELLIPSIS_ICON)`
 
 export const CardDetailsContainer = styled.section`
   display: grid;
-  grid-template-columns: 250px 65px;
+  grid-template-columns: minmax(0, 1fr) 65px;
   grid-template-rows: 25px 15px 20px;
   gap: 5px 10px;
   grid-template-areas:
@@ -142,9 +142,12 @@ export const CardContainer = styled.div`
   grid-template-areas:
     'image'
     'content';
+  grid-template-rows: auto 75px;
+  row-gap: 5px;
 
-  width: 325px;
-  height: 540px;
+  /* 325 × 540 on a wide screen; narrower on a small phone, the poster keeping its proportions. */
+  width: 100%;
+  max-width: 325px;
 
   background-color: ${darkJungleGreen};
 

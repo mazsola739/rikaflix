@@ -30,7 +30,7 @@ const getPositionStyle = ({ leftPosition, rightPosition, direction }: Horizontal
   transition: ${direction === 'right' ? 'right 0.3s, left 0.3s 0.3s' : 'left 0.3s, right 0.3s 0.3s'};
 `
 export const SwitchSlide = styled.div<SwitchSlideProps>(
-  ({ bottomPosition }) => `
+  ({ bottomPosition, horizontalPosition }) => css`
     position: absolute;
     z-index: 1;
     bottom: ${bottomPosition};
@@ -39,6 +39,6 @@ export const SwitchSlide = styled.div<SwitchSlideProps>(
     height: 3px;
 
     background-color: ${watermelon};
-    ${getPositionStyle}
+    ${getPositionStyle(horizontalPosition)}
   `
 )

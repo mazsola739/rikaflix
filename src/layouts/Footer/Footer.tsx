@@ -20,7 +20,8 @@ export const Footer = () => {
   return (
     <FooterElement>
       <Logo />
-      <FooterText>© {new Date().getFullYear()} by Rika. Yes, I made this. No pixels were harmed in the making of this site. Powered by coffee and late-night coding sessions.</FooterText>
+      <FooterText>© 2021–2022 by Rika. Yes, I made this. No pixels were harmed in the making of this site. Powered by coffee and late-night coding sessions.</FooterText>
+      <FooterText>Renovated in 2026.</FooterText>
       {hasBrowserChanges() && (
         <ResetButton type="button" onClick={resetData}>
           Reset demo data

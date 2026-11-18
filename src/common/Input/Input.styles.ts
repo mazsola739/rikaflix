@@ -1,10 +1,11 @@
 import styled from '@emotion/styled'
-import { darkJungleGreen, white } from 'styles/variables'
+import { darkJungleGreen, phoneQuery, white } from 'styles/variables'
 
 export const StyledInput = styled.input`
   border: none;
   border-radius: 4px;
-  width: 715px;
+  flex: 1;
+  min-width: 0;
   height: 55px;
   padding-left: 20px;
 
@@ -15,4 +16,8 @@ export const StyledInput = styled.input`
   font-weight: 400;
   font-style: normal;
   color: ${white};
+
+  ${phoneQuery} {
+    font-size: 16px;
+  }
 `

@@ -1,6 +1,6 @@
 import { PLUS_ICON } from 'assets'
 import styled from '@emotion/styled'
-import { darkJungleGreen } from 'styles/variables'
+import { darkJungleGreen, phoneQuery, tabletQuery } from 'styles/variables'
 
 export const HeaderWrapper = styled.header`
   position: relative;
@@ -28,6 +28,14 @@ export const StyledPlus = styled(PLUS_ICON)`
 
 export const HeaderSearchContainer = styled.div`
   padding: 0 120px 0 120px;
+
+  ${tabletQuery} {
+    padding: 0 40px;
+  }
+
+  ${phoneQuery} {
+    padding: 0 16px;
+  }
 `
 
 export const Heading = styled.h2`
@@ -38,4 +46,10 @@ export const Heading = styled.h2`
   font-size: 40px;
   font-weight: 300;
   text-transform: uppercase;
+
+  ${phoneQuery} {
+    margin: 24px 0;
+
+    font-size: 26px;
+  }
 `

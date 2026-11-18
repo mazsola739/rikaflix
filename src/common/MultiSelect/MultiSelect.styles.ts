@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { css } from '@emotion/react'
 
-import { white, watermelon, charcoalGrey, darkJungleGreen } from 'styles/variables'
+import { white, watermelon, charcoalGrey, darkJungleGreen, phoneQuery } from 'styles/variables'
 import { SelectHeaderProps } from './MultiSelect.types'
 
 const fieldOpacity = {
@@ -66,6 +66,10 @@ export const SelectDropDown = styled.ul`
   display: grid;
   grid-template-columns: 49% 49%;
   grid-column-gap: 2%;
+
+  ${phoneQuery} {
+    grid-template-columns: 100%;
+  }
 
   list-style: none;
 

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { keyframes } from '@emotion/react'
 import { MediaInfoStyleProps } from './MediaInfo.types'
-import { darkJungleGreen, watermelon, white } from 'styles/variables'
+import { darkJungleGreen, phoneQuery, tabletQuery, watermelon, white } from 'styles/variables'
 
 const zoom = keyframes`
  0% {
@@ -32,8 +32,9 @@ export const InfoContainer = styled.div`
 
 export const InfoWrapper = styled.div`
   display: grid;
-  grid-template-columns: 325px 700px;
+  grid-template-columns: 325px minmax(0, 700px);
   grid-template-rows: 1fr;
+  gap: 40px;
   grid-auto-columns: 1fr;
   grid-auto-flow: column;
   justify-content: space-between;
@@ -42,6 +43,21 @@ export const InfoWrapper = styled.div`
   padding: 0 60px 10px;
 
   color: ${white};
+
+  ${tabletQuery} {
+    padding: 0 24px 10px;
+  }
+
+  /* Poster on top, the details under it. */
+  ${phoneQuery} {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'image'
+      'media';
+    gap: 24px;
+
+    padding: 0 16px 32px;
+  }
 `
 
 export const InfoImage = styled.div`
@@ -52,6 +68,14 @@ export const InfoImage = styled.div`
   border-radius: 4px;
   width: 325px;
   height: 460px;
+
+  ${phoneQuery} {
+    justify-self: center;
+
+    width: min(325px, 100%);
+    height: auto;
+    aspect-ratio: 325 / 460;
+  }
 `
 
 export const InfoMovieContainer = styled.section`
@@ -67,6 +91,10 @@ export const InfoMovieContainer = styled.section`
     'details'
     'info';
   grid-area: media;
+
+  ${phoneQuery} {
+    grid-template-rows: auto auto auto 60px auto;
+  }
 `
 
 export const InfoTitle = styled.h2`
@@ -89,6 +117,10 @@ export const InfoTitle = styled.h2`
   font-weight: 300;
   font-style: normal;
   text-overflow: ellipsis;
+
+  ${phoneQuery} {
+    font-size: 28px;
+  }
 `
 
 export const InfoTitleHolder = styled.div`
@@ -149,6 +181,10 @@ export const InfoGenre = styled.p`
 export const InfoContent = styled.div`
   display: grid;
   grid-template-columns: 60px 150px 150px;
+
+  ${phoneQuery} {
+    grid-template-columns: 60px auto auto;
+  }
   grid-template-rows: 1fr;
   grid-auto-flow: row;
   justify-content: space-between;
@@ -176,6 +212,10 @@ export const InfoReleaseDate = styled.time`
   font-size: 24px;
   font-weight: 300;
   color: ${watermelon};
+
+  ${phoneQuery} {
+    font-size: 18px;
+  }
 `
 
 export const InfoRuntime = styled.time`
@@ -189,6 +229,10 @@ export const InfoRuntime = styled.time`
   font-size: 24px;
   font-weight: 300;
   color: ${watermelon};
+
+  ${phoneQuery} {
+    font-size: 18px;
+  }
 `
 
 export const InfoOverview = styled.article`
@@ -214,5 +258,14 @@ export const InfoOverview = styled.article`
     border-radius: 20px;
 
     background-color: ${watermelon};
+  }
+
+  /* The whole page scrolls instead. */
+  ${phoneQuery} {
+    overflow-y: visible;
+
+    max-height: none;
+
+    font-size: 17px;
   }
 `

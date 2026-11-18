@@ -1,6 +1,6 @@
 import { CHECK_ICON } from 'assets'
 import styled from '@emotion/styled'
-import { white, watermelon } from 'styles/variables'
+import { white, watermelon, phoneQuery } from 'styles/variables'
 
 export const CongratsWrapper = styled.div`
   display: flex;
@@ -9,6 +9,7 @@ export const CongratsWrapper = styled.div`
   justify-content: center;
 
   width: 555px;
+  max-width: 100%;
 
   font-size: 20px;
   font-style: normal;
@@ -38,6 +39,11 @@ export const CongratsText = styled.p`
   font-size: 40px;
   font-weight: 300;
   text-transform: uppercase;
+  text-align: center;
+
+  ${phoneQuery} {
+    font-size: 26px;
+  }
 `
 export const CongratsMessage = styled.p`
   opacity: 0.9;
