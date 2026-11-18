@@ -33,7 +33,8 @@ export const MediaInfo = () => {
   const { title, tagline, vote_average, release_date, poster_path, backdrop_path, overview, genres, runtime } = media
 
   return (
-    <InfoBackground backdrop={imageUrl(backdrop_path)}>
+    // Most shows have no backdrop image: their poster fills the background instead.
+    <InfoBackground backdrop={imageUrl(backdrop_path || poster_path)}>
       <InfoContainer>
         <Navigation type="info" />
         <InfoWrapper>
