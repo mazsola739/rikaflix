@@ -3,21 +3,14 @@
 A Netflix-style movie and TV show browser: search, filter by genre, sort, page through 600+ titles,
 open a detail page, pick something at random, and add, edit or delete shows.
 
+**Live:** <https://mazsola739.github.io/rika-netflix/>
+
 It started as the React home task of the EPAM CDP mentoring program
 ([Figma design](https://www.figma.com/design/fKGjrOqR6nJe6LYJopGCZ8/-CDP--Home-Task-%E2%80%93-React-v1))
 and grew a lot of extra features along the way.
 
-```
-rika-netflix/
-├── frontend/   React 19 + TypeScript + Vite + Emotion + RTK Query   → frontend/README.md
-├── backend/    Express + TypeScript + Zod, JSON file storage         → backend/README.md
-├── shared/     filtering/sorting code + types used by both           → shared/README.md
-├── scripts/    maintenance scripts (image download)
-└── .github/    CI: tests + GitHub Pages deployment
-```
-
-Everything the app needs is in this repository: the data, every poster and backdrop, the fonts and the icons.
-It does not depend on any outside API or CDN.
+It is a **static app**: there is no server. The data set, every poster and backdrop, the font and the icons
+ship with the app, so it runs on GitHub Pages (or any static host) without any outside API or CDN.
 
 ## Features
 
@@ -41,99 +34,175 @@ Extras added on top:
 - Success ("congratulations") dialog with the added show's title
 - Detail page drawn over the show's backdrop image
 - Fallback poster when an image can't be loaded
-- Runs **with or without a server**: a REST backend locally, a server-less build on GitHub Pages
 
-## Two ways to run
+## Adding, editing and deleting without a server
 
-| Mode                   | Where                         | Data and changes                                                                   |
-| ---------------------- | ----------------------------- | ---------------------------------------------------------------------------------- |
-| **API mode** (default) | your machine: `yarn dev`      | Express backend; add / edit / delete are saved to `backend/data/shows.json`        |
-| **Browser mode**       | GitHub Pages, or `yarn --cwd frontend dev:pages` | No server; the data ships with the app, changes are saved in the visitor's browser (localStorage) and a "Reset demo data" button in the footer restores the original list |
-
-Both modes use the same filtering, sorting and paging code (`shared/showQuery.ts`), so they behave the same.
+Changes are kept **only in the visitor's own browser** (localStorage). Nobody else sees them, and nothing is
+sent anywhere. They survive a page reload; the **Reset demo data** button in the footer (shown once
+something has changed) throws them away and brings back the original list.
 
 ## Getting started
 
-Requirements: Node.js 20+ and Yarn 1.
+Requirements: Node.js 22+ (24 LTS recommended) and Yarn 1.
 
 ```bash
-yarn setup
+yarn install
 ```
 
 ```bash
 yarn dev
 ```
 
-`yarn setup` installs the dependencies of the root, the backend and the frontend.
-`yarn dev` starts both: the API on <http://localhost:5000/api> and the app on <http://localhost:3000> (it opens in the browser).
+The app opens on <http://localhost:2222>.
 
-You can also run them separately, each in its own terminal:
+## Scripts
 
-```bash
-yarn --cwd backend dev
-```
-
-```bash
-yarn --cwd frontend dev
-```
-
-If port 5000 is taken, start the backend on another port and point the frontend at it:
-`PORT=5055 yarn --cwd backend dev` and `API_PROXY_TARGET=http://localhost:5055 yarn --cwd frontend dev`.
-
-## Scripts (root)
-
-| Command          | What it does                                                     |
-| ---------------- | ---------------------------------------------------------------- |
-| `yarn setup`     | Installs every dependency                                        |
-| `yarn dev`       | Runs backend and frontend together (API mode)                    |
-| `yarn test`      | Runs the backend and the frontend tests                          |
-| `yarn typecheck` | Type-checks both                                                 |
-| `yarn lint`      | Lints the frontend                                               |
-| `yarn build`     | Type-checks the backend and builds the frontend                  |
-| `yarn images`    | Downloads remote poster/backdrop URLs into the repo (see below)  |
+| Command           | What it does                                                                       |
+| ----------------- | ---------------------------------------------------------------------------------- |
+| `yarn dev`        | Dev server on <http://localhost:2222>                                              |
+| `yarn build`      | Type-checks, then builds the GitHub Pages version into `dist/` (served from `/rika-netflix/`) |
+| `yarn preview`    | Serves the last build on <http://localhost:2222/rika-netflix/>                     |
+| `yarn typecheck`  | Type-checks only                                                                   |
+| `yarn lint`       | ESLint                                                                             |
+| `yarn format`     | Prettier on `src/`                                                                 |
+| `yarn test`       | Unit and component tests (Vitest + Testing Library)                                |
+| `yarn test:watch` | Tests in watch mode                                                                |
+| `yarn images`     | Downloads remote poster/backdrop URLs into the repo (see [Images](#images))        |
 
 ## Publishing on GitHub Pages
 
 The workflow in [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) runs on every push to `main` / `master`:
-it type-checks, lints and tests both parts, then builds the browser-mode frontend and publishes it.
+it type-checks, lints and tests the app, then builds it and publishes it.
 
-One-time setup after creating the `rika-netflix` repository on GitHub:
+One-time setup:
 
-1. Push the code.
-2. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
+1. Create a **public** repository called `rika-netflix` on GitHub (free GitHub Pages needs a public repository) and push the code.
+2. **Settings → Pages → Build and deployment → Source: GitHub Actions.** If the first run failed because Pages was not switched on yet, re-run it.
 3. The site appears at `https://<your-github-user>.github.io/rika-netflix/`.
 
-The Pages build expects the repository to be called `rika-netflix`; if you rename it, change `PAGES_BASE` in `frontend/vite.config.ts`.
+The build expects the repository to be called `rika-netflix`; if you rename it, change `PAGES_BASE` in [`vite.config.ts`](vite.config.ts).
+On GitHub Pages `404.html` (a copy of `index.html`, made by `yarn build`) makes direct links and page reloads work.
 
 > Note: posters and backdrops are copyrighted by their studios. They are fine in a personal learning project,
-> but a public repository / site publishes them too; make the repository private if that matters to you.
+> but a public repository / site publishes them too.
+
+## Project structure
+
+```
+rika-netflix/
+├── src/            the app (see below)
+├── public/         favicons and every poster / backdrop (images/)
+├── scripts/        maintenance scripts (image download)
+├── .github/        CI: tests + GitHub Pages deployment
+├── index.html
+└── vite.config.ts  build, dev server (port 2222), path aliases, test setup
+```
+
+Folders under `src/` are imported by bare name (`import { Card } from 'common'`); the aliases live in
+[`vite.config.ts`](vite.config.ts) and `baseUrl` in [`tsconfig.json`](tsconfig.json).
+
+```
+src/
+├── app/          App (routes) and AppProvider (theme, Redux store, show context)
+├── layouts/      page building blocks: Layout, Header, Navigation, Main, CardList, MediaInfo, Footer
+├── modules/      features: Search, Filter, Sort, Switcher, Add, Edit, Delete
+├── common/       reusable UI: Button, Card, Modal, Poster, RatingRing, Pagination, form fields, Loading…
+├── helper/       ShowProvider / useShowContext: the list query state shared by the page
+├── store/        Redux store, the RTK Query API (mediaApi) and the in-browser data layer
+├── data/         shows.json: the data set (614 shows)
+├── hooks/        small reusable hooks
+├── constant/     texts, labels, genre list
+├── utils/        formatters (dates, runtime, genres, form ↔ data conversion, image URLs)
+├── styles/       global styles and colour variables
+├── providers/    Emotion theme provider
+├── types/        shared TypeScript types
+├── assets/       images, Netflix logos, icon exports
+└── test/         test setup, test data set, custom render()
+```
+
+Every component folder follows the same pattern: `Name.tsx`, `Name.styles.ts`, `Name.types.ts`, `Name.test.tsx` and an `index.ts`.
+
+## How data flows
+
+```
+Browser ──► static files (GitHub Pages): app + data + images
+            RTK Query ──► browserBaseQuery ──► src/data/shows.json  (+ the visitor's changes in localStorage)
+```
+
+1. `ShowProvider` (in `helper/`) keeps the list query: type, title, genres, sort, page size and page.
+2. It calls `useGetShowsQuery` from **RTK Query** (`store/service/mediaApi.ts`). RTK Query is the data layer:
+   it caches results and tracks loading state. The Redux store in `store/` holds nothing but this cache.
+3. There is no server: [`store/service/browserBaseQuery.ts`](src/store/service/browserBaseQuery.ts) answers every request
+   in the browser. It loads `src/data/shows.json` (as a separate, lazily loaded chunk), filters, sorts and pages it with
+   [`store/service/showQuery.ts`](src/store/service/showQuery.ts), and keeps additions / edits / deletions in localStorage
+   under `rika-netflix:shows`.
+4. Search, genre tabs, sorting, paging and the Movies/Series buttons only update the query state; RTK Query refetches.
+5. Add / Edit / Delete call the matching mutation and then refetch the list.
+6. Forms use their own field names; `utils/mediaFormatter.ts` converts between the form and the data shape
+   (and turns the form's strings back into numbers for rating and runtime).
+7. Image paths from the data go through `utils/imageUrl.ts`, which prefixes local `images/...` paths with the app's base URL.
+
+## Pages
+
+| Route        | Page                                                                   |
+| ------------ | ---------------------------------------------------------------------- |
+| `/`          | Redirects to `/home`                                                   |
+| `/home`      | Header with search + "add new", genre tabs, sorting, card list, paging |
+| `/shows/:id` | Detail page of a show over its backdrop image                          |
+
+On GitHub Pages every route is prefixed with `/rika-netflix`.
+
+## Tests
+
+Tests run in jsdom against the real data layer, seeded with a small fixed data set
+([`src/test/testShows.ts`](src/test/testShows.ts)) instead of the 614 bundled shows;
+`browserBaseQuery.test.ts` runs the data layer against the real data set.
+Use `render` from `test-utils` in component tests: it wraps the component in the theme, the store and the show context.
+
+```tsx
+import { render, screen } from 'test-utils'
+
+render(<Header />)
+expect(await screen.findByRole('banner')).toBeInTheDocument()
+```
 
 ## Images
 
-All 614 posters and 64 backdrops live in `frontend/public/images/` (~69 MB) and are referenced in the data as
-`images/posters/<file>.jpg` / `images/backdrops/<file>.jpg`. The frontend resolves these against its base URL,
+All 614 posters and 64 backdrops live in `public/images/` (~69 MB) and are referenced in the data as
+`images/posters/<file>.jpg` / `images/backdrops/<file>.jpg`. The app resolves these against its base URL,
 so they work both locally and under `/rika-netflix/` on GitHub Pages.
 
-When you add a show with a poster URL from the internet, run `yarn images`: it downloads every remote image in
-`backend/data/shows.json` (TMDB images at 500 px / 1280 px width) and rewrites the data to the local copies.
+If you add a show to `src/data/shows.json` with a poster URL from the internet, run `yarn images`: it downloads every
+remote image in the data (TMDB images at 500 px / 1280 px width) and rewrites the data to the local copies.
 
-## How it fits together
+Other assets:
 
-```
-API mode:      Browser ──► Vite dev server (:3000) ──/api proxy──► Express API (:5000) ──► backend/data/shows.json
-Browser mode:  Browser ──► static files (GitHub Pages): app + data + images; changes ──► localStorage
-```
-
-- The frontend keeps the current list query (type, title, genres, sort, page) in a React context and asks for data through RTK Query.
-- In API mode the backend filters, sorts and pages the shows, validates every write with Zod and saves the JSON file atomically.
-- In browser mode `frontend/src/store/service/browserBaseQuery.ts` answers the same requests inside the browser.
-
-More details: [backend/README.md](backend/README.md) (API reference), [frontend/README.md](frontend/README.md) (structure, data flow, tests), [shared/README.md](shared/README.md).
+- `public/favicon.ico`: the "R" logo; `public/favicon-netflix.ico`: the Netflix "N".
+- `src/assets/`: the five Netflix logos of the animated header, the fallback poster, the loading logo,
+  the error / 404 / loading pictures and an extra WandaVision poster (kept for later use).
+- Icons come from `@react-icons/all-files` and are re-exported with descriptive names in `assets/icons.ts`.
+- The Montserrat font is bundled from `@fontsource/montserrat` (no Google Fonts request).
 
 ## Data
 
-`backend/data/shows.json` holds 614 shows (434 movies, 180 TV shows) with ratings, genres, posters and overviews.
+`src/data/shows.json` holds 614 shows (434 movies, 180 TV shows) with ratings, genres, posters and overviews.
 550 of them have no backdrop image yet; their detail page falls back to a plain background.
+
+```ts
+interface Show {
+  id: string               // UUID
+  type: 'Movie' | 'TV show'
+  title: string
+  tagline: string
+  vote_average: number     // 0–10
+  release_date: string     // YYYY.MM.DD
+  poster_path: string      // 'images/posters/…' or an http(s) URL
+  backdrop_path: string    // 'images/backdrops/…', an http(s) URL, or ''
+  overview: string
+  genres: string[]         // e.g. ['Action', 'Sci-fi']; first letter is capitalised on save
+  runtime: number          // minutes
+}
+```
 
 ## History
 
@@ -143,9 +212,8 @@ This repository merges three earlier versions of the same project into one:
 | ------------------------------ | ------------------------------------------------------------------------------- |
 | `netflix-roulette-2021`        | First version (CRA, styled-components); the 404 picture                         |
 | `netflix-roulette-rika` (2025) | The feature-complete frontend, its tests, assets and the full data set          |
-| `rika-roulette` (2024)         | The Express backend, Vite setup, the "R" favicon, the footer text and the WandaVision poster |
+| `rika-roulette` (2024)         | Vite setup, the "R" favicon, the footer text and the WandaVision poster. It also had an Express backend; the app has since become fully static, and that backend is only in the git history |
 
 ## Not implemented yet
 
-- Authentication: in API mode anyone who can reach the API can add, edit or delete shows.
-- A dedicated 404 page (the images for it are already in `frontend/src/assets`).
+- A dedicated 404 page (the images for it are already in `src/assets`).

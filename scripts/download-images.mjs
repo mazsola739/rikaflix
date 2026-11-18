@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * Downloads every remote poster / backdrop referenced in backend/data/shows.json
- * into frontend/public/images and rewrites the data to point at the local copies.
+ * Downloads every remote poster / backdrop referenced in src/data/shows.json
+ * into public/images and rewrites the data to point at the local copies.
  *
- *   yarn images            (from the repository root)
+ *   yarn images
  *
  * - Posters are saved at 500 px width, backdrops at 1280 px (TMDB sizes), which is
  *   plenty for the UI and ~4x smaller than the originals.
@@ -20,8 +20,8 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const DATA_FILE = path.join(ROOT, 'backend', 'data', 'shows.json')
-const PUBLIC_DIR = path.join(ROOT, 'frontend', 'public')
+const DATA_FILE = path.join(ROOT, 'src', 'data', 'shows.json')
+const PUBLIC_DIR = path.join(ROOT, 'public')
 
 const KINDS = {
   poster_path: { folder: 'images/posters', tmdbSize: 'w500' },

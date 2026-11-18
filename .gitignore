@@ -2,12 +2,10 @@ node_modules
 dist
 coverage
 *.log
+*.local
 *.tsbuildinfo
 .env
-.env.local
 .DS_Store
 .vscode/*
 !.vscode/extensions.json
 .idea
-# temp file used while saving backend/data/shows.json
-.shows.json.tmp

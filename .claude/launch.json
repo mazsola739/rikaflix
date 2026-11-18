@@ -2,22 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "api",
-      "runtimeExecutable": "yarn",
-      "runtimeArgs": ["--cwd", "backend", "dev"],
-      "port": 5000
-    },
-    {
       "name": "web",
       "runtimeExecutable": "yarn",
-      "runtimeArgs": ["--cwd", "frontend", "dev", "--open", "false"],
-      "port": 3000
-    },
-    {
-      "name": "web-pages",
-      "runtimeExecutable": "yarn",
-      "runtimeArgs": ["--cwd", "frontend", "dev:pages", "--port", "3001", "--open", "false"],
-      "port": 3001
+      "runtimeArgs": ["dev", "--no-open"],
+      "port": 2222
     }
   ]
 }
