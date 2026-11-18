@@ -179,7 +179,7 @@ Other assets:
 
 - The Rikaflix "R" is the capital R of Montserrat Black (the font of the "rikaflix" text), stored as an SVG outline in
   [`common/LogoMark`](src/common/LogoMark/LogoMark.tsx) (intro screen, header tiles);
-  `public/favicon.svg` is the same drawing, `public/favicon.ico` the older "R" icon kept as a fallback for browsers without SVG favicons.
+  `public/favicon.svg` is the same drawing, `public/favicon.ico` the same red R at 16, 32 and 48 px for browsers without SVG favicons.
 - `src/assets/`: the fallback poster, the error / 404 / loading pictures and an extra WandaVision poster (kept for later use).
 - Icons come from `@react-icons/all-files` and are re-exported with descriptive names in `assets/icons.ts`.
 - The Montserrat font is bundled from `@fontsource/montserrat` (no Google Fonts request).
