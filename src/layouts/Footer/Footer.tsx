@@ -23,8 +23,9 @@ export const Footer = () => {
   return (
     <FooterElement>
       <Logo />
-      <FooterText>© 2021–2022 by Rika · Made in 2021, renovated in 2026</FooterText>
+      <FooterText>© 2021–2022 by Rika. Yes, I made this. No pixels were harmed in the making of this site. Powered by coffee and late-night coding sessions.</FooterText>
       <FooterLinks>
+        <FooterText>Made in 2021, renovated in 2026</FooterText>
         <FooterLink href={PORTFOLIO_URL} target="_blank" rel="noopener noreferrer">
           Portfolio
         </FooterLink>

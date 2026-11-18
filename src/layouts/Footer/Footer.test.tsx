@@ -18,7 +18,8 @@ describe('Footer ', () => {
   })
 
   it('shows when the site was made and when it was renovated', async () => {
-    expect(await screen.findByText('© 2021–2022 by Rika · Made in 2021, renovated in 2026')).toBeInTheDocument()
+    expect(await screen.findByText(/^© 2021–2022 by Rika\. Yes, I made this\. No pixels were harmed/)).toBeInTheDocument()
+    expect(screen.getByText('Made in 2021, renovated in 2026')).toBeInTheDocument()
   })
 
   it('links to the portfolio and to GitHub', async () => {

@@ -20,10 +20,13 @@ export const FooterText = styled.small`
   text-align: center;
 `
 
+/** "Made in…, renovated in…" and the links, on one line (they wrap on a narrow phone). */
 export const FooterLinks = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 6px 16px;
 `
 
 /** Red like the footer text, a bit brighter on hover. */
