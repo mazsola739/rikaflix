@@ -1,15 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="./favicon.ico" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <title>Rika's Movie roulette</title>
+    <meta name="description" content="Rika Netflix: find your next movie or TV show" />
+    <!-- %BASE_URL% is "/" locally and "/rika-netflix/" on GitHub Pages. -->
+    <link rel="icon" href="%BASE_URL%favicon.ico" />
+    <title>Rika Netflix</title>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="./src/index.tsx"></script>
+    <!-- Modals are rendered into this node through a portal. -->
+    <div id="modal"></div>
+    <script type="module" src="/src/index.tsx"></script>
   </body>
 </html>

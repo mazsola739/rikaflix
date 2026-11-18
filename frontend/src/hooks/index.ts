@@ -1,1 +1,1 @@
-export * from './useShowContext'
+export * from './useModal'

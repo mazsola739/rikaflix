@@ -1,14 +1,14 @@
-import { ThemeProvider as StyledThemeProvider } from 'styled-components'
-import { GlobalStyle } from '../../styles'
-import { ThemeProviderProps } from './ThemeProvider.types'
+import { FC, PropsWithChildren } from 'react'
+import { ThemeProvider as EmotionThemeProvider } from '@emotion/react'
+import { GlobalStyles } from 'styles'
+import { themeMap } from './themeMap'
 
-
-export const ThemeProvider = ({ children, theme }: ThemeProviderProps) => {
-
+export const ThemeProvider: FC<PropsWithChildren<Record<string, unknown>>> = ({ children }) => {
+  const theme = 'Light'
   return (
-    <StyledThemeProvider theme={theme}>
-      <GlobalStyle />
+    <EmotionThemeProvider theme={themeMap[theme]}>
+      <GlobalStyles />
       {children}
-    </StyledThemeProvider>
+    </EmotionThemeProvider>
   )
 }

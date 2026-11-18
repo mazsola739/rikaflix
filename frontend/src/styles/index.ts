@@ -1,2 +1,3 @@
-export * from './GlobalStyle'
-export * from './theme'
+export * as variables from './variables'
+
+export * from './GlobalStyles'

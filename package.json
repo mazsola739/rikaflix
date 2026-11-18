@@ -1,0 +1,19 @@
+{
+  "name": "rika-netflix",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Rika Netflix: a movie and TV show browser (React frontend + Express backend)",
+  "license": "MIT",
+  "scripts": {
+    "setup": "yarn install && yarn --cwd backend install && yarn --cwd frontend install",
+    "dev": "concurrently --names api,web --prefix-colors blue,magenta \"yarn --cwd backend dev\" \"yarn --cwd frontend dev\"",
+    "build": "yarn --cwd backend build && yarn --cwd frontend build",
+    "test": "yarn --cwd backend test && yarn --cwd frontend test",
+    "lint": "yarn --cwd frontend lint",
+    "typecheck": "yarn --cwd backend typecheck && yarn --cwd frontend typecheck",
+    "images": "node scripts/download-images.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

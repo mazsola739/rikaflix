@@ -1,0 +1,75 @@
+# Tests the backend and the frontend, then publishes the server-less build to GitHub Pages.
+# One-time setup on GitHub: Settings → Pages → Build and deployment → Source: "GitHub Actions".
+name: Test and deploy
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+          cache-dependency-path: |
+            backend/yarn.lock
+            frontend/yarn.lock
+
+      - name: Install
+        run: |
+          yarn --cwd backend install --frozen-lockfile
+          yarn --cwd frontend install --frozen-lockfile
+
+      - name: Backend – typecheck and tests
+        run: |
+          yarn --cwd backend typecheck
+          yarn --cwd backend test
+
+      - name: Frontend – typecheck, lint and tests
+        run: |
+          yarn --cwd frontend typecheck
+          yarn --cwd frontend lint
+          yarn --cwd frontend test
+
+  deploy:
+    # Only publish from the default branch, never from pull requests.
+    if: github.event_name != 'pull_request'
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+          cache-dependency-path: frontend/yarn.lock
+
+      - name: Build (browser mode, served from /rika-netflix/)
+        run: |
+          yarn --cwd frontend install --frozen-lockfile
+          yarn --cwd frontend build:pages
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/dist
+      - id: deployment
+        uses: actions/deploy-pages@v4

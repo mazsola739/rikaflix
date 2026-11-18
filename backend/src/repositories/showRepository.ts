@@ -1,54 +1,57 @@
-import { v4 as uuidv4 } from 'uuid'
-import { Show } from "../types"
-import { showUtil } from "../utils"
+import { randomUUID } from 'crypto'
+import fs from 'fs'
+import path from 'path'
 
-const shows = showUtil.readShowsFromFile()
+import { Show, ShowInput } from '../../../shared/show'
 
-const getShows = (): Show[] => {
-  return shows
+export interface ShowRepository {
+  findAll: () => Show[]
+  findById: (id: string) => Show | undefined
+  create: (input: ShowInput) => Show
+  update: (id: string, changes: Partial<ShowInput>) => Show | undefined
+  remove: (id: string) => boolean
 }
 
-const getShowById = (id: string): Show | undefined => {
-  return shows.find(show => show.id === id)
-}
+/**
+ * File-backed show store. The JSON file is read once at startup and every
+ * change is written back atomically (temp file + rename), so a crash in the
+ * middle of a write can't leave a half-written database behind.
+ */
+export const createShowRepository = (dataFile: string): ShowRepository => {
+  const shows: Show[] = JSON.parse(fs.readFileSync(dataFile, 'utf-8'))
 
-const addShow = (newShowData: Show): Show => {
-  const { id, ...showWithoutId } = newShowData
-  const newShow = { id: uuidv4(), ...showWithoutId }
-
-  shows.push(newShow)
-  showUtil.writeShowsToFile(shows)
-  return newShow
-}
-
-const updateShow = (id: string, updateData: Partial<Show>): Show | null => {
-  const showIndex = shows.findIndex(show => show.id === id)
-  
-  if (showIndex !== -1) {
-    shows[showIndex] = { ...shows[showIndex], ...updateData }
-    showUtil.writeShowsToFile(shows)
-    return shows[showIndex]
+  const persist = () => {
+    const tempFile = path.join(path.dirname(dataFile), `.${path.basename(dataFile)}.tmp`)
+    fs.writeFileSync(tempFile, JSON.stringify(shows, null, 2) + '\n')
+    fs.renameSync(tempFile, dataFile)
   }
 
-  return null
-}
+  return {
+    findAll: () => shows,
 
-const deleteShow = (id: string): boolean => {
-  const showIndex = shows.findIndex(show => show.id === id)
-  
-  if (showIndex !== -1) {
-    shows.splice(showIndex, 1)
-    showUtil.writeShowsToFile(shows)
-    return true
+    findById: id => shows.find(show => show.id === id),
+
+    create: input => {
+      const show: Show = { ...input, id: randomUUID() }
+      shows.push(show)
+      persist()
+      return show
+    },
+
+    update: (id, changes) => {
+      const index = shows.findIndex(show => show.id === id)
+      if (index === -1) return undefined
+      shows[index] = { ...shows[index], ...changes, id }
+      persist()
+      return shows[index]
+    },
+
+    remove: id => {
+      const index = shows.findIndex(show => show.id === id)
+      if (index === -1) return false
+      shows.splice(index, 1)
+      persist()
+      return true
+    }
   }
-
-  return false
-}
-
-export const showRepository = {
-  getShows,
-  getShowById,
-  addShow,
-  updateShow,
-  deleteShow,
 }

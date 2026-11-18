@@ -1,23 +1,10 @@
-import express from "express"
-import cors from 'cors'
-import { showRouter } from "./routes"
-import { routeConstant } from "./constants"
+import { createApp } from './app'
+import { config } from './config'
+import { createShowRepository } from './repositories/showRepository'
 
-const app = express()
+const repository = createShowRepository(config.dataFile)
+const app = createApp(repository, config.corsOrigin)
 
-app.use(cors({
-  origin: 'http://localhost:3000',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}))
-
-app.use(express.static('public'))
-app.use(express.json())
-
-app.use(`${routeConstant.SHOWS}`, showRouter)
-
-const PORT = 5000
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
+app.listen(config.port, () => {
+  console.log(`API listening on http://localhost:${config.port}/api (${repository.findAll().length} shows loaded)`)
 })

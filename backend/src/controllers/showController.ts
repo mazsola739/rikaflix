@@ -1,68 +1,44 @@
 import { Request, Response } from 'express'
-import { showService } from '../services'
-import { statusConstant } from '../constants'
 
-const getShows = async (req: Request, res: Response) => {
-  try {
-    const shows = await showService.getShows(req)
-    res.status(statusConstant.OK).json(shows)
-  } catch (error) {
-    res.status(statusConstant.INTERVAL_SERVER_ERROR).json({ message: 'Error fetching shows', error })
-  }
-}
+import { ShowRepository } from '../repositories/showRepository'
+import { queryShows } from '../../../shared/showQuery'
+import { ShowInput, ShowQuery } from '../../../shared/show'
 
-const getShowById = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const show = await showService.getShowById(req)
-    if (show) {
-      res.status(statusConstant.OK).json(show)
-    } else {
-      res.status(statusConstant.NOT_FOUND).json({ message: 'Show not found' })
+/** HTTP handlers for `/api/shows`. Request bodies/queries are already validated. */
+export const createShowController = (repository: ShowRepository) => ({
+  list: (_req: Request, res: Response) => {
+    const query = res.locals.query as ShowQuery
+    res.json(queryShows(repository.findAll(), query))
+  },
+
+  getById: (req: Request, res: Response) => {
+    const show = repository.findById(req.params.id)
+    if (!show) {
+      res.status(404).json({ message: 'Show not found' })
+      return
     }
-  } catch (error) {
-    res.status(statusConstant.INTERVAL_SERVER_ERROR).json({ message: 'Error fetching show', error })
-  }
-}
+    res.json(show)
+  },
 
-const addShow = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const newShow = await showService.addShow(req)
-    res.status(statusConstant.CREATED).json(newShow)
-  } catch (error) {
-    res.status(statusConstant.INTERVAL_SERVER_ERROR).json({ message: 'Error adding show', error })
-  }
-}
+  create: (_req: Request, res: Response) => {
+    const show = repository.create(res.locals.body as ShowInput)
+    res.status(201).json(show)
+  },
 
-const updateShow = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const updatedShow = await showService.updateShow(req)
-    if (updatedShow) {
-      res.status(statusConstant.OK).json(updatedShow)
-    } else {
-      res.status(statusConstant.NOT_FOUND).json({ message: 'Show not found or not updated' })
+  update: (req: Request, res: Response) => {
+    const show = repository.update(req.params.id, res.locals.body as Partial<ShowInput>)
+    if (!show) {
+      res.status(404).json({ message: 'Show not found' })
+      return
     }
-  } catch (error) {
-    res.status(statusConstant.INTERVAL_SERVER_ERROR).json({ message: 'Error updating show', error })
-  }
-}
+    res.json(show)
+  },
 
-const deleteShow = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const deleted = await showService.deleteShow(req)
-    if (deleted) {
-      res.status(statusConstant.OK).json({ message: 'Show deleted successfully' })
-    } else {
-      res.status(statusConstant.NOT_FOUND).json({ message: 'Show not found' })
+  remove: (req: Request, res: Response) => {
+    if (!repository.remove(req.params.id)) {
+      res.status(404).json({ message: 'Show not found' })
+      return
     }
-  } catch (error) {
-    res.status(statusConstant.INTERVAL_SERVER_ERROR).json({ message: 'Error deleting show', error })
+    res.json({ id: req.params.id })
   }
-}
-
-export const showController = {
-  getShows,
-  getShowById,
-  addShow,
-  updateShow,
-  deleteShow,
-}
+})

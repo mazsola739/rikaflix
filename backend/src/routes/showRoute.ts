@@ -1,13 +1,18 @@
 import { Router } from 'express'
-import { showController } from '../controllers'
-import { showValidator } from '../validators'
 
-const showRouter = Router()
+import { createShowController } from '../controllers/showController'
+import { ShowRepository } from '../repositories/showRepository'
+import { createShowSchema, showQuerySchema, updateShowSchema, validate } from '../validators/showValidator'
 
-showRouter.get('/', showController.getShows)
-showRouter.get('/:id', showController.getShowById)
-showRouter.post('/', showValidator, showController.addShow)
-showRouter.put('/:id', showValidator, showController.updateShow)
-showRouter.delete('/:id', showController.deleteShow)
+export const createShowRouter = (repository: ShowRepository) => {
+  const controller = createShowController(repository)
+  const router = Router()
 
-export { showRouter }
+  router.get('/', validate(showQuerySchema, 'query'), controller.list)
+  router.get('/:id', controller.getById)
+  router.post('/', validate(createShowSchema), controller.create)
+  router.put('/:id', validate(updateShowSchema), controller.update)
+  router.delete('/:id', controller.remove)
+
+  return router
+}

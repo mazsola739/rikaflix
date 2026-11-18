@@ -1,0 +1,22 @@
+export const Genres = {
+  ACTION: 'action',
+  ADVENTURE: 'adventure',
+  ANIMATION: 'animation',
+  COMEDY: 'comedy',
+  CRIME: 'crime',
+  DOCUMENTARY: 'documentary',
+  DRAMA: 'drama',
+  FAMILY: 'family',
+  FANTASY: 'fantasy',
+  HISTORY: 'history',
+  HORROR: 'horror',
+  MUSIC: 'music',
+  MUSICAL: 'musical',
+  MYSTERY: 'mystery',
+  POLITICS: 'politics',
+  ROMANCE: 'romance',
+  SCIFI: 'sci-fi',
+  THRILLER: 'thriller',
+  WAR: 'war',
+  WESTERN: 'western'
+} as const
