@@ -21,7 +21,7 @@ export const Footer = () => {
     <FooterElement>
       <Logo />
       <FooterText>© 2021–2022 by Rika. Yes, I made this. No pixels were harmed in the making of this site. Powered by coffee and late-night coding sessions.</FooterText>
-      <FooterText>Renovated in 2026.</FooterText>
+      <FooterText>Originally made in 2021, renovated in 2026.</FooterText>
       {hasBrowserChanges() && (
         <ResetButton type="button" onClick={resetData}>
           Reset demo data

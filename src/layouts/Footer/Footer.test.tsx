@@ -19,6 +19,6 @@ describe('Footer ', () => {
 
   it('shows when the site was made and when it was renovated', async () => {
     expect(await screen.findByText(/© 2021–2022 by Rika/)).toBeInTheDocument()
-    expect(screen.getByText(/renovated in 2026/i)).toBeInTheDocument()
+    expect(screen.getByText('Originally made in 2021, renovated in 2026.')).toBeInTheDocument()
   })
 })
