@@ -27,7 +27,7 @@ export const Footer = () => {
       <FooterLinks>
         <FooterText>Made in 2021, renovated in 2026</FooterText>
         <FooterLink href={PORTFOLIO_URL} target="_blank" rel="noopener noreferrer">
-          Portfolio
+          mazsola739
         </FooterLink>
         <FooterLink href={GITHUB_URL} target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
           <StyledGithub />

@@ -23,7 +23,7 @@ describe('Footer ', () => {
   })
 
   it('links to the portfolio and to GitHub', async () => {
-    expect(await screen.findByRole('link', { name: 'Portfolio' })).toHaveAttribute('href', 'https://mazsola739.github.io/mazsola739')
+    expect(await screen.findByRole('link', { name: 'mazsola739' })).toHaveAttribute('href', 'https://mazsola739.github.io/mazsola739')
     expect(screen.getByRole('link', { name: 'GitHub' })).toHaveAttribute('href', 'https://github.com/mazsola739')
   })
 })
