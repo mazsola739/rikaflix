@@ -218,3 +218,7 @@ Rikaflix merges three earlier versions of the same project into one:
 ## Not implemented yet
 
 - A dedicated 404 page (the images for it are already in `src/assets`).
+
+## License
+
+The code is under the [MIT License](LICENSE). The posters, backdrops and movie data belong to their owners.
